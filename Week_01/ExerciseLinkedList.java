@@ -1,7 +1,7 @@
 package jie.leetcode.camp;
 
 public class ExerciseLinkedList {
-	//24. 两两交换链表中的节点
+	//24. 涓や袱浜ゆ崲閾捐〃涓殑鑺傜偣
 	public ListNode swapPairs2(ListNode head) {
         if (head == null || head.next == null)
             return head;
@@ -34,7 +34,7 @@ public class ExerciseLinkedList {
         return dummy.next;
     }
 	
-	//21. 合并两个有序链表
+	//21. 鍚堝苟涓や釜鏈夊簭閾捐〃
 	public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
 		ListNode ans = new ListNode(0);
 		ListNode dummy = ans;

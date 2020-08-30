@@ -2,6 +2,7 @@ package jie.leetcode.camp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,25 +10,25 @@ import java.util.Map;
 import java.util.Set;
 
 public class ExerciseArray {
-	//66. ¼ÓÒ»
+	//66. åŠ ä¸€
 	public int[] plusOne(int[] digits) {
 		int len = digits.length;
 		for (int i = len - 1; i >= 0; i--) {
 			if (digits[i] < 9) {
 				digits[i] += 1;
-				return digits; // µ±Ç°Î»Ğ¡ÓÚ9£¬Ôò¼Ó1ºóÖ±½Ó·µ»Ø
+				return digits; //å½“å‰ä½å°äº9ï¼Œåˆ™åŠ 1åç›´æ¥è¿”å›
 			} else {
-				digits[i] = 0; // µ±Ç°Î»µÈÓÚ9£¬Ôòµ±Ç°Î»ÖÃÎª0£¬½øÈëÏÂ´ÎÑ­»·
+				digits[i] = 0; //å½“å‰ä½ç­‰äº9ï¼Œåˆ™å½“å‰ä½ç½®ä¸º0ï¼Œè¿›å…¥ä¸‹æ¬¡å¾ªç¯
 			}
 		}
 
-		// Èç¹ûÑ­»·½áÊø£¬¶øÃ»ÓĞ·µ»Ø£¬ËµÃ÷Ã¿Ò»Î»¶¼ÊÇ9£¬ĞèÒª½øÎ»£¬Ô­À´µÄÊı×éÃ¿Ò»Î»µÄÖµÈ«ÊÇ0£¬ÔÙ¼ÓÒ»Î»1·ÅÔÚ×îÇ°Ãæ
+		//å¦‚æœå¾ªç¯ç»“æŸï¼Œè€Œæ²¡æœ‰è¿”å›ï¼Œè¯´æ˜æ¯ä¸€ä½éƒ½æ˜¯9ï¼Œéœ€è¦è¿›ä½ï¼ŒåŸæ¥çš„æ•°ç»„æ¯ä¸€ä½çš„å€¼å…¨æ˜¯0ï¼Œå†åŠ ä¸€ä½1æ”¾åœ¨æœ€å‰é¢
 		int arr[] = new int[len + 1];
 		arr[0] = 1;
 		return arr;
 	}
 	
-	//283. ÒÆ¶¯Áã
+	//283. ç§»åŠ¨é›¶
 	public void moveZeroes3(int[] nums) {
         for (int i = 0, j = 0; i < nums.length; i++) {
             if (nums[i] != 0 ) {
@@ -64,7 +65,7 @@ public class ExerciseArray {
         }
     }
 	
-	//1. Á½ÊıÖ®ºÍ
+	//1. ä¸¤æ•°ä¹‹å’Œ
 	public int[] twoSum2(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<> ();
 		for (int i=0; i < nums.length; i++) {
@@ -88,12 +89,60 @@ public class ExerciseArray {
 		throw new IllegalArgumentException("No nums equals to target");
 	}
 	
-	//15. ÈıÊıÖ®ºÍ
+	//15. ä¸‰æ•°ä¹‹å’Œ
+	public List<List<Integer>> threeSum2(int[] nums) {
+		if (nums == null || nums.length == 0) 
+			return Collections.EMPTY_LIST;
+		
+		List<List<Integer>> ans = new ArrayList<>();
+		
+		int len = nums.length;
+		Arrays.sort(nums);
+		for (int k = 0; k < len - 2; k++) {
+			if (nums[k] > 0)
+				break;
+			
+			if (k > 0 && nums[k] == nums[k - 1])
+				continue;
+			int i = k + 1, j = len - 1;
+			while (i < j) {
+				int sum = nums[k] + nums[i] + nums[j];
+				if (sum < 0) {
+					while (i < j && nums[i] == nums[++i]) {
+					}
+				} else if (sum > 0) {
+					while (i < j && nums[j] == nums[--j]);
+				} else {
+					List<Integer> list = Arrays.asList(nums[k], nums[i], nums[j]);
+					ans.add(list);
+					while (i < j && nums[i] == nums[++i]);
+					while (i < j && nums[j] == nums[--j]);
+				}
+			}
+		}
+		return ans;
+	}
 	public List<List<Integer>> threeSum(int[] nums) {
-		return null;//TODO
+		if (nums == null || nums.length == 0)
+			return Collections.EMPTY_LIST;
+		
+		Set<List<Integer>> set = new HashSet<>();
+		Arrays.sort(nums);
+		int len = nums.length;
+		for (int i = 0; i < len - 2; i++) {
+			for (int j = i + 1; j < len - 1; j++) {
+				for (int k = j + 1; k < len; k++) {
+					if (nums[i] + nums[j] + nums[k] == 0) {
+						List<Integer> candidate = Arrays.asList(nums[i], nums[j], nums[k]);
+						set.add(candidate);
+					}
+				}
+			}
+		}
+		return new ArrayList<>(set);
     }
 	
-	//88. ºÏ²¢Á½¸öÓĞĞòÊı×é
+	//88. åˆå¹¶ä¸¤ä¸ªæœ‰åºæ•°ç»„
 	public void merge3(int[] nums1, int m, int[] nums2, int n) {
 		int p1 = m - 1, p2 = n - 1, p = m + n -1;
 		
@@ -137,7 +186,7 @@ public class ExerciseArray {
 			}
     }
 	
-	//189. Ğı×ªÊı×é
+	//189. æ—‹è½¬æ•°ç»„
 	public void rotate3(int[] nums, int k) {
 		int len = nums.length;
 		int[] tmp = new int[len];
@@ -173,7 +222,7 @@ public class ExerciseArray {
 		}
 	}
 	
-	//26. É¾³ıÅÅĞòÊı×éÖĞµÄÖØ¸´Ïî
+	//26. åˆ é™¤æ’åºæ•°ç»„ä¸­çš„é‡å¤é¡¹
 	public int removeDuplicates(int[] nums) {
         int i = 0;
         for (int j =0; j < nums.length; j++) {
@@ -184,18 +233,50 @@ public class ExerciseArray {
         return i+1;
     }
 	
-	//11. Ê¢×î¶àË®µÄÈİÆ÷
+	//11. ç››æœ€å¤šæ°´çš„å®¹å™¨
 	public int maxArea(int[] height) {
-		return 0; //TODO
+		int ans = Integer.MIN_VALUE;
+		for (int i = 0; i < height.length - 1; i++) {
+			for (int j = i + 1; j < height.length; j++) {
+				int h = Math.min(height[i], height[j]);
+				int w = j - i;
+				ans = Math.max(h*w, ans);
+			}
+		}
+		return ans;
     }
+	
+	public int maxArea2(int[] height) {
+		int ans = Integer.MIN_VALUE;
+		int l = 0, r = height.length-1;
+		while (l < r) {
+			int w = r - l;
+			int h = Math.min(height[l], height[r]);
+			ans = Math.max(ans, w * h);
+			
+			if (height[r] < height[l]) 
+				r--;
+			else 
+				l++;
+		}
+		return ans;
+	}
 	
 	//Test
 	public static void main(String args[]) {
 		ExerciseArray test = new ExerciseArray();
-		int nums1[] = new int[] {56,71,99,0,0,0};
-		int nums2[] = new int[] {2,5,66};
-		test.merge3(nums1, 3, nums2, 3);
-		System.out.println(Arrays.toString(nums1));
+		/*
+		 * int nums1[] = new int[] {56,71,99,0,0,0}; int nums2[] = new int[] {2,5,66};
+		 * test.merge3(nums1, 3, nums2, 3); System.out.println(Arrays.toString(nums1));
+		 */
+		/*
+		 * int nums[] = new int[] {3,0,-2,-1,1,2}; List<List<Integer>> ans =
+		 * test.threeSum2(nums); for (List<Integer> l : ans) System.out.println(l);
+		 */
+		
+		int[] height = new int[] {1,8,6,2,5,4,8,3,7};
+		System.out.println(test.maxArea2(height));
+		
 	}
 }
 
