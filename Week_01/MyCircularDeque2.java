@@ -1,15 +1,14 @@
-package jie.leetcode.camp.stackqueue;
 //641. 设计循环双端队列
 //https://leetcode-cn.com/problems/design-circular-deque/
 public class MyCircularDeque2 {
 	int size;
 	int k;
-	ListNode head;
-	ListNode tail;
+	ListNode2 head;
+	ListNode2 tail;
 	/** Initialize your data structure here. Set the size of the deque to be k. */
     public MyCircularDeque2(int k) {
-    	head = new ListNode(-1);
-    	tail = new ListNode(-1);
+    	head = new ListNode2(-1);
+    	tail = new ListNode2(-1);
     	head.prev = tail;
     	tail.next = head;
     	this.k = k;
@@ -19,7 +18,7 @@ public class MyCircularDeque2 {
     /** Adds an item at the front of Deque. Return true if the operation is successful. */
     public boolean insertFront(int value) {
     	if (size == k) return false;
-    	ListNode node = new ListNode(value);
+    	ListNode2 node = new ListNode2(value);
     	node.next = head;
     	node.prev = head.prev;
     	head.prev.next = node;
@@ -31,7 +30,7 @@ public class MyCircularDeque2 {
     /** Adds an item at the rear of Deque. Return true if the operation is successful. */
     public boolean insertLast(int value) {
     	if (size == k) return false;
-    	ListNode node = new ListNode(value);
+    	ListNode2 node = new ListNode2(value);
     	node.next = tail.next;
     	tail.next.prev = node;
     	tail.next = node;
@@ -80,12 +79,12 @@ public class MyCircularDeque2 {
 }
 
 
-class ListNode {
-	ListNode prev;
-	ListNode next;
+class ListNode2 {
+	ListNode2 prev;
+	ListNode2 next;
 	int val;
 	
-	ListNode(int val) {
+	ListNode2(int val) {
 		this.val = val;
 	}
 }

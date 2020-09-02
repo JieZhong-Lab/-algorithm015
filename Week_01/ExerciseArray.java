@@ -1,5 +1,3 @@
-package jie.leetcode.camp;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,6 +8,29 @@ import java.util.Map;
 import java.util.Set;
 
 public class ExerciseArray {
+	//350. 两个数组的交集 II
+	public int[] intersect(int[] nums1, int[] nums2) {
+		Arrays.sort(nums1);
+		Arrays.sort(nums2);
+		int i = 0, j = 0;
+		List<Integer> ans = new ArrayList<> ();
+		while (i < nums1.length && j < nums2.length) {
+			if (nums1[i] < nums2[j]) {
+				i++;
+			} else if (nums1[i] > nums2[j]) {
+				j++;
+			} else {
+				ans.add(nums1[i]);
+				i++;
+				j++;
+			}
+		}
+		int[] res = new int[ans.size()];
+		int index = 0;
+		for (int n : ans)
+			res[index++] = n;
+		return res;
+    }
 	//66. 加一
 	public int[] plusOne(int[] digits) {
 		int len = digits.length;
@@ -234,6 +255,22 @@ public class ExerciseArray {
     }
 	
 	//11. 盛最多水的容器
+	public int maxArea_3(int[] height) {
+		int i = 0, j = height.length;
+		int ans = Integer.MIN_VALUE;
+		while (i < j) {
+			int w = j - i;
+			int h = Math.min(height[i], height[j]);
+			ans = Math.max(ans, w*h);
+			if (height[i] < height[j]) {
+				i++;
+			} else {
+				j--;
+			}
+		}
+		return ans;
+	}
+
 	public int maxArea(int[] height) {
 		int ans = Integer.MIN_VALUE;
 		for (int i = 0; i < height.length - 1; i++) {

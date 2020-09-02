@@ -1,11 +1,7 @@
-package jie.leetcode.camp;
-
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,6 +57,29 @@ public class OneDayOneAlgorithm {
 
 	// 290. 单词规律
 	// https://leetcode.com/problems/word-pattern/
+	public boolean wordPattern3(String pattern, String str) {
+		if (pattern == null || str == null) return false;
+
+		String[] strArr = str.split(" ");
+		if (pattern.length() != strArr.length) return false;
+
+		Map<Character, String> map = new HashMap<>();
+		map.put(pattern.charAt(0), strArr[0]);
+		for (int i = 1; i < pattern.length(); i++) {
+			if (map.containsKey(pattern.charAt(i))) {
+				if (!map.get(pattern.charAt(i)).equals(strArr[i]))
+					return false;
+			} else {
+				for (char c : map.keySet()) {
+					if (map.get(c).equals(strArr[i])) 
+						return false;
+				}
+				map.put(pattern.charAt(i), strArr[i]);
+			}
+		}
+		return true;
+	}
+
 	public boolean wordPattern(String pattern, String str) {
 		if (pattern == null || str == null)
 			return pattern == str;
@@ -229,17 +248,9 @@ public class OneDayOneAlgorithm {
 
 	// Test
 	public static void main(String args[]) {
-		/*
-		 * OneDayOneAlgorithm test = new OneDayOneAlgorithm();
-		 * 
-		 * // String pattern =
-		 * "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccdd";
-		 * // String str =
-		 * "s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s s t t"
-		 * ;
-		 * 
-		 * String pattern = "abba"; String str = "dog cat cat dog";
-		 * System.out.println(test.wordPattern(pattern, str));
-		 */
+		 OneDayOneAlgorithm test = new OneDayOneAlgorithm();
+		 
+		 String pattern = "abba"; String str = "dog cat cat dog";
+		 System.out.println(test.wordPattern(pattern, str));
 	}
 }
