@@ -208,12 +208,10 @@ public class ExerciseTree {
             while (size > 0) {
                 Node node = queue.poll();
                 list.add(node.val);
+                queue.addAll(node.children);
                 size--;
             }
             output.add(list);
-            for (Node item : node.children) {
-                queue.offer(item);
-            }
         }
         return output;        
     }
