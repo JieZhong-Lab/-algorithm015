@@ -9,6 +9,20 @@ import java.util.Set;
 
 public class ExerciseHash {
     //242. 有效的字母异位词
+    public boolean isAnagram2(String s, String t) {
+        if (s == null || t == null || s.length() != t.length()) return false;
+
+        int[] arr = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            arr[s.charAt(i)-'a']++;
+            arr[t.charAt(i)-'a']--;
+        }
+        for (int n : arr) {
+            if (n != 0) 
+                return false;
+        }
+        return true;
+    }
     public boolean isAnagram(String s, String t) {
         if (s.length() != t.length()) return false;
 
@@ -24,6 +38,30 @@ public class ExerciseHash {
         return true;
     }
     //49. 字母异位词分组
+    public List<List<String>> groupAnagrams2(String[] strs) {
+        if (strs == null || strs.length == 0) 
+            return Collections.emptyList();
+
+        Map<String, List<String>> map = new HashMap<>();
+        int[] arr = new int[26];
+        for (String s : strs) {
+            Arrays.fill(arr, 0);
+            for (char c : s.toCharArray()) {
+                arr[c - 'a']++;
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i <= 26; i++) {
+                sb.append(arr[i]).append('#');
+            }
+            String pattern = sb.toString();
+            if (!map.containsKey(pattern)) 
+                map.put(pattern, new ArrayList<String>());
+            map.get(pattern).add(s);
+        }
+        return new ArrayList<List<String>>(map.values());
+    }
+
+
     public List<List<String>> groupAnagrams(String[] strs) {
         if (strs == null || strs.length == 0)
             return Collections.emptyList();
@@ -50,7 +88,7 @@ public class ExerciseHash {
         return new ArrayList<List<String>>(map.values());
     }
 
-    public List<List<String>> groupAnagrams2(String[] strs) {
+    public List<List<String>> groupAnagrams3(String[] strs) {
         if (strs.length == 0) return Collections.emptyList();
 
         Map<String, List<String>> map = new HashMap<>();

@@ -1,12 +1,46 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class OneDayOneAlgorithm {
+	//1021. 删除最外层的括号
+	public String removeOuterParentheses(String S) {
+		Stack<Character> stack = new Stack<>();
+		StringBuilder ans = new StringBuilder();
+
+		int start = 0;
+		for (int i = 0; i < S.length(); i++) {
+			if (S.charAt(i) == '(') {
+				stack.push('(');
+			} else {
+				stack.pop();
+				if (stack.isEmpty()) {
+					ans.append(S.substring(start + 1, i));
+					start = i + 1;
+				}
+			}
+		}
+		return ans.toString();
+	}
+
+	//简洁代码
+	public String removeOuterParentheses2(String S) {
+		StringBuilder ans = new StringBuilder();
+		int level = 0;
+		for (char c : S.toCharArray()) {
+			if (c == ')') level--;
+			if (level >= 1) ans.append(c);
+			if (c == '(') level++;
+		}
+		return ans.toString();
+	}
+	
 	// 299. 猜数字游戏
 	// https://leetcode-cn.com/problems/bulls-and-cows/
 	//one bucket TODO ..
@@ -246,6 +280,152 @@ public class OneDayOneAlgorithm {
 		return ans;
 	}
 
+	//91. 解码方法
+	public int numDecodings_1(String s) {
+		if (s == null || s.length() == 0) return 0;
+		int n = s.length();
+		int[] dp = new int[n + 1];
+		
+		dp[n] = 1;
+		if (s.charAt(n-1) != '0')
+			dp[n-1] = 1;
+		for (int i = n - 2; i >= 0; i--) {
+			if (s.charAt(i) == '0') continue;
+
+			dp[i] += dp[i + 1];
+			int a = (s.charAt(i) - '0') * 10;
+			a += s.charAt(i + 1) - '0';
+			if (a <= 26) {
+				dp[i] += dp[i + 2];
+			}
+		}
+		return dp[0];
+	}
+
+	public int numDecodings_2(String s) {
+		if (s == null || s.length() == 0) return 0;
+
+		int[] cnt = new int[s.length() + 1];
+		Arrays.fill(cnt, -1);
+		return numDecodings_2_helper(s, 0, cnt);
+	}
+	private int numDecodings_2_helper(String s, int start, int[] cnt) {
+		 if (s.length() == start) return 1;
+
+		 if (cnt[start] != -1) return cnt[start];
+		 if (s.charAt(start) == '0') return 0;
+		 int res = 0;
+		 res += numDecodings_2_helper(s, start + 1, cnt);
+
+		 if (start < s.length() - 1) {
+			int a = (s.charAt(start) - '0') * 10;
+		 	a += s.charAt(start + 1) - '0'; 
+		 	if (a <= 26) {
+				res += numDecodings_2_helper(s, start + 2, cnt);
+		 	}
+		 }
+		 
+		 cnt[start] = res;
+		 return res;
+	}
+
+
+	//递归
+	public int numDecodings(String s) {
+		if (s == null || s.length() == 0) return 0;
+
+		return numDecodings_helper(s, 0);
+	}
+	
+	private int numDecodings_helper(String s, int start) {
+		if (start == s.length()) return 1;
+		int ans = 0;
+
+		if (s.charAt(start) - '0' == 0) {
+            return 0;
+        } 
+		ans += numDecodings_helper(s, start + 1);
+		
+		if (start < s.length() - 1) {
+			int a = (s.charAt(start) - '0') * 10;
+			int b = s.charAt(start + 1) - '0';
+
+			if (a + b <= 26) {
+				ans += numDecodings_helper(s, start + 2);
+			}
+		}
+		return ans;
+	}
+
+	//优化递归
+	public int numDecodings2(String s) {
+		if (s == null || s.length() == 0) return 0;
+
+		int[] mem = new int[s.length() + 1];
+		Arrays.fill(mem, -1);
+		return numDecodings_helper2(s, 0, mem);
+	}
+
+	private int numDecodings_helper2(String s, int start, int[] mem) {
+		if (start == s.length()) return 1;
+		int ans = 0;
+		if (s.charAt(start) == '0') {
+			return 0;
+		}
+		if (mem[start] != -1)
+			return mem[start]; //计算过
+
+		ans += numDecodings_helper2(s, start + 1, mem);
+		if (start < s.length() - 1) {
+			int a = (s.charAt(start) - '0') * 10;
+			int b = s.charAt(start + 1) - '0';
+
+			if (a + b <= 26) {
+				ans += numDecodings_helper2(s, start + 2, mem);
+			}
+		}
+		mem[start] = ans;
+		return ans;
+	}
+
+	//动规
+	public int numDecodings3(String s) {
+		if (s == null || s.length() == 0) return 0;
+
+		int len = s.length();
+		int[] dp = new int[len + 1];
+		dp[len] = 1;
+		if (s.charAt(len - 1) != '0')
+			dp[len - 1] = 1;
+
+		for (int i = len - 2; i >= 0; i--) {
+			if (s.charAt(i) == '0')
+				continue;
+			
+			dp[i] += dp[i + 1];
+			int a = (s.charAt(i) - '0') * 10;
+			int b = s.charAt(i + 1) - '0';
+			if (a + b <= 26)
+				dp[i] += dp[i + 2];
+		}
+		return dp[0];
+	}
+	//动规空间优化 TODO
+
+	//258. 各位相加
+	public int addDigits(int num) {
+		if (num < 10) return num;
+		int ans = 0;
+		while (num >= 10) {
+			while (num > 0) {
+				ans += num % 10;
+				num /= num;
+			}
+			num = ans;
+			ans = 0;
+		}
+		return num;
+    }
 	// Test
 	public static void main(String args[]) {
 		 OneDayOneAlgorithm test = new OneDayOneAlgorithm();

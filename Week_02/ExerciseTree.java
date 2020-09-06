@@ -217,6 +217,82 @@ public class ExerciseTree {
         }
         return output;        
     }
+
+    //108. 将有序数组转换为二叉搜索树
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
+        return helper(nums, 0, nums.length - 1);
+    }
+    private TreeNode helper(int[] nums, int left, int right) {
+        if (left > right) 
+            return null;
+
+        int mid = (left + right) / 2;
+        TreeNode node = new TreeNode(nums[mid]);
+        node.left = helper(nums, left, mid - 1);
+        node.right = helper(nums, mid + 1, right);
+
+        return node;
+    }
+
+    //107. 二叉树的层次遍历 II
+    //BFS
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+        Stack<List<Integer>> stack = new Stack<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            List<Integer> level = new ArrayList<>();
+            while (size > 0) {
+                TreeNode node = q.poll();
+                level.add(node.val);
+                if (node.left != null) {
+                    q.offer(node.left);
+                } 
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
+                size--;
+            }
+            stack.push(level);
+        }
+
+        while(!stack.isEmpty()) ans.add(stack.pop());
+        return ans;
+    }
+
+    public List<List<Integer>> levelOrderBottom_1(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        DFS_2(root, 0, ans);
+        return ans;
+    }
+    //DFS - 自顶向下
+    private void DFS_1(TreeNode root, int level, List<List<Integer>> ans) {
+        if (root == null) return;
+        //当前层数还没有元素，先 new 一个空的列表
+        if (ans.size() <= level) {
+            ans.add(new ArrayList<>());
+        }
+        //将当前值加入
+        ans.get(level).add(root.val);
+        DFS_1(root.left, level + 1, ans);
+        DFS_1(root.right, level + 1, ans);
+    }
+    //DFS - 自底向上
+    private void DFS_2(TreeNode root, int level, List<List<Integer>> ans) {
+        if (root == null) return;
+
+        if (ans.size() <= level) {
+            ans.add(0, new ArrayList<>());
+        }
+        ans.get(ans.size() - 1 - level).add(root.val);//将当前值加入到正在处理的层
+        DFS_2(root.left, level + 1, ans);
+        DFS_2(root.right, level + 1, ans);
+    }
 }
 
 class TreeNode {
