@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -68,6 +69,49 @@ public class ExerciseHeap {
         
         for (int i = 0; i < k; i++) 
             ans[i] = heap.poll().getKey();
+        return ans;
+    }
+    //剑指 Offer 49. 丑数
+    //heap- 小顶堆
+    //分析：任何丑数乘以2，3，5，其结果也是丑数
+    public int nthUglyNumber(int n) {
+        int[] primeFactorArr = new int[] {2, 3, 5};
+        PriorityQueue<Long> minHeap = new PriorityQueue<>();//小顶堆，取堆顶，下面的元素有可能超过int的范围
+        minHeap.offer(1L);
+
+        int count = 0; //记录出堆的元素，按照从小到大排序
+        while (!minHeap.isEmpty()) {
+            long num = minHeap.poll();
+            if (++count >= n) {
+                return (int)num;
+            }
+            for (int prime : primeFactorArr) {
+                if (!minHeap.contains(num * prime)) {
+                    minHeap.offer(num * prime);
+                }
+            }
+        }
+        return -1;
+    }
+
+    //239. 滑动窗口最大值
+    //heap -大顶堆
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums.length == 0 || k == 0) return new int[]{0};
+        int len = nums.length;
+        int[] ans = new int[len - k + 1];
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((o1, o2) -> (o2 - o1));
+
+        for (int i = 0; i < len; i++) {
+            int start = i - k;
+            if (start >= 0) {
+                maxHeap.remove(nums[start]);
+            }
+            maxHeap.offer(nums[i]);
+            if (maxHeap.size() == k) {
+                ans[i - k + 1] = maxHeap.peek();
+            }
+        }
         return ans;
     }
 }
