@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -8,11 +7,54 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-
+//127. 单词接龙
 public class LadderLength {
+    public int ladderLength_5(String beginWord, String endWord, List<String> wordList) {
+        if (beginWord == null || endWord == null || wordList == null) return 0;
+        
+        Set<String> wordSet = new HashSet<>(wordList);
+        Set<String> beginSet = new HashSet<>();
+        Set<String> endSet = new HashSet<>();
+
+        int len = beginWord.length();
+        int cost = 1;
+        Set<String> visited = new HashSet<>();
+        beginSet.add(beginWord);
+        endSet.add(endWord);
+        while (!beginSet.isEmpty() && !endSet.isEmpty()) {
+            if (beginSet.size() > endSet.size()) {
+                Set<String> tmp = beginSet;
+                beginSet = endSet;
+                endSet = tmp;
+            }
+            Set<String> currLayer = new HashSet<>();
+            for (String word : beginSet) {
+                char[] currWord = word.toCharArray();
+                for (int i = 0; i < len; i++) {
+                    char origChar = currWord[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        currWord[i] = c;
+                        String tmpWord = String.valueOf(currWord);
+
+                        if (endSet.contains(tmpWord)) {
+                            return cost + 1;
+                        }
+                        if (!visited.contains(tmpWord) && wordSet.contains(tmpWord)) {
+                            currLayer.add(tmpWord);
+                            visited.add(tmpWord);
+                        }
+                    }
+                    currWord[i] = origChar;
+                }
+            }
+            beginSet = currLayer;
+            cost++;
+        }
+        return 0;
+    }
     //双向广度优先搜索. 优化2 - 28ms
     public int ladderLength_4_2(String beginWord, String endWord, List<String> wordList) {
-        if (beginWord == null || endWord == null || wordList == null) return 0;
+        if (beginWord == null || endWord == null || wordList == null || beginWord.equals(endWord)) return 0;
         
         int end = wordList.indexOf(endWord);
         if (end == -1) return 0;
@@ -53,6 +95,7 @@ public class LadderLength {
                     for (char c = 'a'; c <= 'z'; c++) {
                         currWordArr[i] = c;
                         String newWord = String.valueOf(currWordArr);
+                        
                         if (visited1.contains(newWord)) continue;
                         if (visited2.contains(newWord)) return cost + 1;
                         if (words.contains(newWord)) {
@@ -228,6 +271,7 @@ public class LadderLength {
          }
          return 0;
     }
+    //官方题解
     //Soluetion 1. 广度优先搜索 - 54ms
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         if (beginWord == null || endWord == null || wordList == null) return 0;
@@ -354,8 +398,9 @@ public class LadderLength {
         wordList.add("lot");
         wordList.add("log");
         wordList.add("cog");
-        System.out.println(ll.ladderLength_4_1(beginWord, endWord, wordList));
+        System.out.println(ll.ladderLength_5(beginWord, endWord, wordList));
     }
+
 }
 
 class Pair {

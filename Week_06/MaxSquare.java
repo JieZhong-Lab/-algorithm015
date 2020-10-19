@@ -15,6 +15,7 @@ public class MaxSquare {
                         dp[i][j] = 1;
                     }
                     else { 
+                        //由[i,j]的上方，左方，左上方的最小值决定
                         dp[i][j] = Math.min(Math.min(dp[i-1][j], dp[i-1][j-1]), dp[i][j-1]) + 1;
                     }
                     maxSide = Math.max(maxSide, dp[i][j]);
