@@ -25,7 +25,7 @@ public class ExerciseTree {
     }
 
     public List<Integer> postorderTraversal_2(TreeNode root) {
-        LinkedList<Integer> output = new LinkedList<>();
+        LinkedList<Integer> output = new LinkedList<>();//双端队列
         Stack<TreeNode> stack = new Stack<>();
 
         if (root == null) {
@@ -50,7 +50,7 @@ public class ExerciseTree {
         Stack<TreeNode> stack = new Stack<>();
 
         TreeNode curr = root;
-        while (curr != null && !stack.isEmpty()) {
+        while (curr != null || !stack.isEmpty()) {
             while (curr != null) {
                 stack.push(curr);
                 curr = curr.left;
@@ -225,7 +225,9 @@ public class ExerciseTree {
         if (left > right) 
             return null;
 
-        int mid = (left + right) / 2;
+        int mid = (left + right) / 2; //总是选择中间位置左边的数字作为根节点
+        //int mid = (left + right + 1) / 2; //总是选择中间位置右边的数字作为根节点
+        //int mid = (left + right + rand.nextInt(2)) / 2; //选择任意一个中间位置数字作为根节点
         TreeNode node = new TreeNode(nums[mid]);
         node.left = helper(nums, left, mid - 1);
         node.right = helper(nums, mid + 1, right);

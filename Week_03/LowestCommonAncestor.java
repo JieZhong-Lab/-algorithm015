@@ -11,14 +11,10 @@ public class LowestCommonAncestor {
         final TreeNode leftLCA = lowestCommonAncestor(root.left, p, q);
         final TreeNode rightLCA = lowestCommonAncestor(root.right, p, q);
 
-        if (leftLCA == null && rightLCA == null)
-            return null;
-        else {
-            if (leftLCA == null)
-                return rightLCA;
-            if (rightLCA == null)
-                return leftLCA;
-        }
+        if (leftLCA == null && rightLCA == null) return null;
+        if (leftLCA == null) return rightLCA;
+        if (rightLCA == null) return leftLCA;
+        
         return root; // leftLCA != null && rightLCA != null
     }
 
@@ -76,5 +72,9 @@ public class LowestCommonAncestor {
             parentMap.put(root.right.val, root);
             travser(root.right);
         }
+    }
+
+    public static void main (String args[]) {
+        System.out.println("haha");
     }
 }

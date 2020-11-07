@@ -94,7 +94,6 @@ public class PalindromeString {
     }
 
     public String longestPalindrome_2(String s) {
-        String ans = "";
         int n = s.length();
         int start = 0, end = 0;
         for (int i = 0; i < n; i++) {
@@ -110,7 +109,7 @@ public class PalindromeString {
     }
 
     private int expand(String s, int l, int r) {
-        while (l < r && s.charAt(l) == s.charAt(r)) {
+        while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
             --l;
             ++r;
         }

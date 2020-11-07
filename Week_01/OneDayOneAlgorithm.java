@@ -167,6 +167,7 @@ public class OneDayOneAlgorithm {
 		return true;
 	}
 
+
 	// 70.Climbing Stairs
 	// https://leetcode.com/problems/climbing-stairs/submissions/
 	public int climbStairs(int n) {
@@ -310,17 +311,23 @@ public class OneDayOneAlgorithm {
 		return numDecodings_2_helper(s, 0, cnt);
 	}
 	private int numDecodings_2_helper(String s, int start, int[] cnt) {
+		 //terminator
 		 if (s.length() == start) return 1;
+		 if (s.charAt(start) == '0') return 0; //剪枝1
 
 		 if (cnt[start] != -1) return cnt[start];
-		 if (s.charAt(start) == '0') return 0;
+		
 		 int res = 0;
+		 //drill down
+		 //case 1. 取1位数解码
 		 res += numDecodings_2_helper(s, start + 1, cnt);
 
+		 //case 2. 取2位数解码
 		 if (start < s.length() - 1) {
 			int a = (s.charAt(start) - '0') * 10;
 		 	a += s.charAt(start + 1) - '0'; 
-		 	if (a <= 26) {
+			 if (a <= 26) {//剪枝2
+				//drill down
 				res += numDecodings_2_helper(s, start + 2, cnt);
 		 	}
 		 }

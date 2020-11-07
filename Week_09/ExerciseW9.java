@@ -5,6 +5,25 @@ import java.util.Queue;
 import java.util.Set;
 
 public class ExerciseW9 {
+    //300. 最长上升子序列
+    public int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int n = nums.length;
+        int maxLen = 1;
+        int[] dp = new int[n]; //dp[i] 表示以i为终点的最长上升子序列的长度
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < n; i++) {
+            //求以第i个数为终点的最长上升子序列的长度
+            for (int j = 0; j < i; j++) {
+                //查看以第j个数为终点的最长上升子序列
+                if (nums[i] > nums[j]) { //加上num[i], 可以组成上升子序列
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            maxLen = Math.max(maxLen, dp[i]);
+        }
+        return maxLen;
+    }
     //1024. 视频拼接
     //T - 持续时长为T秒的视频
     public int videoStitching(int[][] clips, int T) {

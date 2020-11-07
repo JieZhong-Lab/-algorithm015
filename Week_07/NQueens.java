@@ -98,11 +98,11 @@ public class NQueens {
     }
     public static void main(String args[]) {
         NQueens nq = new NQueens();
-        //List<List<String>> ans = nq.solveNQueens(8);
-        System.out.println(nq.totalNQueens(8));
-        // for (List<String> board : ans) {
-        //     board.forEach(row -> System.out.println(row));
-        //     System.out.println("------");
-        // }
+        List<List<String>> ans = nq.solveNQueens(4);
+        //System.out.println(nq.totalNQueens(8));
+        for (List<String> board : ans) {
+            board.forEach(row -> System.out.println(row));
+            System.out.println("------");
+        }
     }
 }

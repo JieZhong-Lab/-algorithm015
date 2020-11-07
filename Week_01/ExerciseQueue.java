@@ -24,6 +24,7 @@ public class ExerciseQueue {
 		}
 		return ans;
 	}
+	//Deque
 	public int[] maxSlidingWindow2(int[] nums, int k) {
 		if (nums == null || nums.length < 2) return nums;
 
@@ -45,7 +46,7 @@ public class ExerciseQueue {
 		}
 		return ans;
 	}
-
+	//Brute Force
 	public int[] maxSlidingWindow(int[] nums, int k) {
 		int n = nums.length;
 		

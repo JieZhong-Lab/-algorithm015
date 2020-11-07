@@ -185,6 +185,10 @@ public class BuyAndSellStock {
                     dp[i][k][1] = -prices[i];
                     continue;
                 }
+                //dp[i][k][s] = max(buy, sell, rest)
+                //i - [0 , n)
+                //k - [1, K]
+                //s - [0, 1]
                 dp[i][k][0] = Math.max(dp[i-1][k][0], dp[i-1][k][1] + prices[i]);
                 dp[i][k][1] = Math.max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]);
             }

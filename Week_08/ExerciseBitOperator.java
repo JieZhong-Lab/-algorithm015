@@ -1,3 +1,13 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.Comparator;
+import java.util.List;
+
 public class ExerciseBitOperator {
     // 191. 位1的个数
     // you need to treat n as an unsigned value
@@ -46,6 +56,40 @@ public class ExerciseBitOperator {
         }
         return bitsCnt;
     }
+
+    //1356. 根据数字二进制下 1 的数目排序
+    public int[] sortByBits(int[] arr) {
+        if (arr == null || arr.length < 2) return arr;
+        List<Integer> list = new ArrayList<>();
+        for (int n : arr) list.add(n);
+        Collections.sort(list, new Comparator<Integer>(){
+            @Override
+            public int compare(Integer n1, Integer n2) {
+                int cnt1 = Integer.bitCount(n1), cnt2 = Integer.bitCount(n2);
+                return cnt1 == cnt2 ? n1 - n2 : cnt1 - cnt2; 
+            }
+        });
+        
+        System.out.println(Integer.bitCount(1024));
+        for (int i = 0; i < arr.length; i++) 
+            arr[i] = list.get(i);
+        return arr;
+    }
+
+    public int[] sortByBits_2(int[] arr) {
+        if (arr == null || arr.length < 2) return arr;
+        int len = arr.length;
+        int[] myArr = new int[len];
+        for (int i = 0; i < len; i++) {
+            myArr[i] = Integer.bitCount(arr[i]) * 1000000 + arr[i];
+        }
+        Arrays.sort(myArr);
+        for (int i = 0; i < len; i++) {
+            myArr[i] = myArr[i] % 1000000;
+        }
+        return myArr;
+    }
+    
     
     public static void main(String args[]) {
         ExerciseBitOperator ebit = new ExerciseBitOperator();

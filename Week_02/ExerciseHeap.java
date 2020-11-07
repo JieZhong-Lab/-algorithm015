@@ -27,6 +27,27 @@ public class ExerciseHeap {
         }
         return ans;
     }
+
+    public int[] getLeastNumber3(int[] arr, int k) {
+        if (k == 0) return new int[0];
+        PriorityQueue<Integer> heap = new PriorityQueue<>((o1, o2) -> (o2 - o1));
+        int ans[] = new int[k];
+        for (int i = 0; i < arr.length; i++) {
+            if (i < k) {
+                heap.offer(arr[i]);
+            } else {
+                if (heap.peek() > arr[i]) {
+                    heap.poll();
+                    heap.offer(arr[i]);
+                }
+            }
+        }
+
+        for (int i = 0; i < k; i++) {
+            ans[i] = heap.poll();
+        }
+        return ans;
+    }
     //快排
     //347. 前 K 个高频元素
     //heap - 大顶堆
@@ -72,6 +93,20 @@ public class ExerciseHeap {
         return ans;
     }
     //剑指 Offer 49. 丑数
+    //动态规划
+    public int nthUglyNumber_2(int n) {
+        int[] dp = new int[n];
+        dp[0] = 1;
+        int a = 0, b = 0, c = 0;
+        for (int i = 1; i < n; i++) {
+            int n2 = dp[a] * 2, n3 = dp[b] * 3, n5 = dp[c] * 5;
+            dp[i] = Math.min(Math.min(n2, n3), n5);
+            if (dp[i] == n2) a++;
+            if (dp[i] == n3) b++;
+            if (dp[i] == n5) c++;
+        }
+        return dp[n-1];
+    }
     //heap- 小顶堆
     //分析：任何丑数乘以2，3，5，其结果也是丑数
     public int nthUglyNumber(int n) {
