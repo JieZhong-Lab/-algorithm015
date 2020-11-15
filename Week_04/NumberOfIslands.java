@@ -29,7 +29,7 @@ public class NumberOfIslands {
     }
 
     public static void main(String args[]) {
-        NumOfIslands islands = new NumOfIslands();
+        NumberOfIslands islands = new NumberOfIslands();
         char[][] grid = new char[][] {
             {'1', '1', '0', '1', '0'},
             {'1', '1', '0', '1', '0'},
